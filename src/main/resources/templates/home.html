@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8"/>
+	<title>WeatherMonitor </title>
+	<div th:replace="header :: header-css"/>
+</head>
+<body>
+<div th:replace="header :: header"/>
+<h1>Hello <span sec:authentication="name"></span>!</h1>
+<p>Welcome to <span th:text="${appName}">Our App</span></p>
+
+<section sec:authorize="hasAuthority('USER')" class="container-fluid align-items-center pl-5 ml-5 justify-items-center">
+	<div id="weather-result">
+		<div id="result-city"></div>
+		<div id="result-main"></div>
+		<div id="result-description"></div>
+		<div id="result-temp"></div>
+		<div id="result-temp-min"></div>
+		<div id="result-temp-max"></div>
+	</div>
+	<fieldset>
+		<h2>Where should I check the weather?</h2>
+		<div th:if="${param.error}">
+			<div class="alert alert-danger">
+				Invalid city
+			</div>
+		</div>
+		<div class="form-group col-lg-6">
+			<input type="text" name="city" id="city"
+			       placeholder="city" required="true"/>
+		</div>
+	</fieldset>
+	<div class="row">
+		<div class="col-lg-6">
+			<input type="submit" class="btn btn-lg btn-primary btn-block" value="Check weather" onclick="loadXMLDoc()"/>
+		</div>
+	</div>
+</section>
+<div sec:authorize="hasAuthority('ADMIN')">Text visible to admin.</div>
+</body>
+<script type="text/javascript">
+    function loadXMLDoc() {
+        var xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState === XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                if (xmlhttp.status === 200) {
+                    var result = JSON.parse(xmlhttp.responseText);
+                    document.getElementById("result-city").innerHTML = result.city;
+                    document.getElementById("result-main").innerHTML = result.main;
+                    document.getElementById("result-description").innerHTML = result.description;
+                    document.getElementById("result-temp").innerHTML = result.temp;
+                    document.getElementById("result-temp-min").innerHTML = result.tempMin;
+                    document.getElementById("result-temp-max").innerHTML = result.tempMax;
+                } else if (xmlhttp.status === 400) {
+                    alert('There was an error 400');
+                } else {
+                    alert('something else other than 200 was returned');
+                }
+            }
+        };
+
+        xmlhttp.open("POST", "/users/me/weather/current?city=" + document.getElementById("city").value, true);
+        xmlhttp.send();
+    }
+</script>
+</html>
