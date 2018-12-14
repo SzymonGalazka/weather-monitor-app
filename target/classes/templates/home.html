@@ -37,7 +37,32 @@
 		</div>
 	</div>
 </section>
-<div sec:authorize="hasAuthority('ADMIN')">Text visible to admin.</div>
+<section sec:authorize="hasAuthority('ADMIN')">
+	<h3>Text visible to admin.</h3>
+	<table class="admin-table">
+		<tr>
+			<th>Index</th>
+			<th>User</th>
+			<th>Login attempts</th>
+			<th>View history</th>
+			<th>Delete user</th>
+		</tr>
+		<tr th:each="user : ${users}">
+			<td th:text="${user.id-1}"></td>
+			<td th:text="${user.username}">User</td>
+			<td th:text="${user.failedLoginAttempts}">Attempts</td>
+			<td>
+				<form th:method="DELETE" th:action="${'/users/delete/' + user.id}">
+					<button type="submit" class="btn btn-default">Delete</button>
+				</form>
+			</td>
+			<!--<td sec:authorize="hasAuthority('ADMIN')"><a th:href="${'/product/edit/' + product.id}">Edit</a></td>-->
+			<!--<td sec:authorize="hasAuthority('ADMIN')"><a th:href="${'/product/delete/' + product.id}">Delete</a></td>-->
+		</tr>
+	</table>
+
+
+</section>
 </body>
 <script type="text/javascript">
     function loadXMLDoc() {

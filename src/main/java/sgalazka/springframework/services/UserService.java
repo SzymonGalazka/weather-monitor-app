@@ -15,4 +15,7 @@ public interface UserService extends CRUDService<User> {
 
 	String registerUserAndGetName(UserCreds userCreds);
 
+	boolean checkIfAdmin();
+
+	List<User> listAllWithoutAdmin();
 }

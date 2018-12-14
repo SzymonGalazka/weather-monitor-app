@@ -1,5 +1,7 @@
 package sgalazka.springframework.services;
 
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import sgalazka.springframework.common.pojo.UserCreds;
 import sgalazka.springframework.domain.Role;
 import sgalazka.springframework.domain.User;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sgalazka.springframework.services.security.UserDetailsImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +45,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<?> listAll() {
 		List<User> users = new ArrayList<>();
-		userRepository.findAll().forEach(users::add); //fun with Java 8
+		userRepository.findAll().forEach(users::add);
 		return users;
 	}
 
@@ -94,4 +97,22 @@ public class UserServiceImpl implements UserService {
 
 		return newUser.getUsername();
 	}
+
+	@Override
+	public boolean checkIfAdmin() {
+		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return userDetails.getUsername().toUpperCase().equals("ADMIN");
+	}
+
+	@Override
+	public List<User> listAllWithoutAdmin() {
+		List<User> users = new ArrayList<>();
+		userRepository.findAll().forEach(users::add);
+		users.stream()
+				.filter(user -> user.getUsername().toUpperCase().equals("ADMIN"))
+				.findFirst()
+				.map(users::remove);
+		return users;
+	}
+
 }
