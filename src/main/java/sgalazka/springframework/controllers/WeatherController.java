@@ -57,7 +57,6 @@ public class WeatherController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 		Integer userId = userDetails.getUserId();
-		System.out.println("userId: " + userId);
 		return weatherService.getWeatherForCity(city, userId);
 	}
 }

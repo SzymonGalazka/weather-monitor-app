@@ -33,22 +33,23 @@
 	</fieldset>
 	<div class="row">
 		<div class="col-lg-6">
-			<input type="submit" class="btn btn-lg btn-primary btn-block" value="Check weather" onclick="loadXMLDoc()"/>
+			<input type="submit" class="btn btn-lg btn-primary btn-block" value="Check weather" onclick="checkWeather()"/>
 		</div>
 	</div>
 </section>
+<!--ADMIN-->
 <section sec:authorize="hasAuthority('ADMIN')">
 	<h3>Text visible to admin.</h3>
 	<table class="admin-table">
 		<tr>
 			<th>Index</th>
 			<th>User</th>
-			<th>Login attempts</th>
+			<th>Failed logins</th>
 			<th>View history</th>
 			<th>Delete user</th>
 		</tr>
 		<tr th:each="user : ${users}">
-			<td th:text="${user.id-1}"></td>
+			<td id="userId" th:text="${user.id}"></td>
 			<td th:text="${user.username}">User</td>
 			<td th:text="${user.failedLoginAttempts}">Attempts</td>
 			<td>
@@ -56,16 +57,19 @@
 					<button type="submit" class="btn btn-default">Delete</button>
 				</form>
 			</td>
-			<!--<td sec:authorize="hasAuthority('ADMIN')"><a th:href="${'/product/edit/' + product.id}">Edit</a></td>-->
-			<!--<td sec:authorize="hasAuthority('ADMIN')"><a th:href="${'/product/delete/' + product.id}">Delete</a></td>-->
+		<tr th:each="weather : ${user.weathers}">
+		<td th:text="${weather.dateCreated}"></td>
+		<td th:text="${weather.city}"></td>
+		<td th:text="${weather.main}"></td>
+		<td th:text="${weather.description}"></td>
+		<td th:text="${weather.temp}"></td>
+		</tr>
 		</tr>
 	</table>
-
-
 </section>
 </body>
 <script type="text/javascript">
-    function loadXMLDoc() {
+    function checkWeather() {
         var xmlhttp = new XMLHttpRequest();
 
         xmlhttp.onreadystatechange = function () {
@@ -85,7 +89,6 @@
                 }
             }
         };
-
         xmlhttp.open("POST", "/users/me/weather/current?city=" + document.getElementById("city").value, true);
         xmlhttp.send();
     }

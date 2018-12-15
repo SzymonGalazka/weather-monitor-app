@@ -9,7 +9,6 @@ import java.util.List;
  */
 @Entity
 public class User {
-	//wyjebalem extends AbstractDomainClass
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "USER_ID")
@@ -23,10 +22,16 @@ public class User {
 	private String encryptedPassword;
 	private Boolean enabled = true;
 
+	@OneToMany(
+			mappedBy = "user",
+			cascade = CascadeType.ALL,
+			orphanRemoval = true
+	)
+	private List<Weather> weathers = new ArrayList<>();
+
+
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable
-	// ~ defaults to @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "user_id"),
-	//     inverseJoinColumns = @joinColumn(name = "role_id"))
 	private List<Role> roles = new ArrayList<>();
 
 	private Integer failedLoginAttempts = 0;
@@ -34,11 +39,12 @@ public class User {
 	public User() {
 	}
 
-	public User(String username, String password, String encryptedPassword, Boolean enabled, List<Role> roles, Integer failedLoginAttempts) {
+	public User(String username, String password, String encryptedPassword, Boolean enabled, List<Weather> weathers, List<Role> roles, Integer failedLoginAttempts) {
 		this.username = username;
 		this.password = password;
 		this.encryptedPassword = encryptedPassword;
 		this.enabled = enabled;
+		this.weathers = weathers;
 		this.roles = roles;
 		this.failedLoginAttempts = failedLoginAttempts;
 	}
@@ -112,5 +118,13 @@ public class User {
 
 	public void setFailedLoginAttempts(Integer failedLoginAttempts) {
 		this.failedLoginAttempts = failedLoginAttempts;
+	}
+
+	public List<Weather> getWeathers() {
+		return weathers;
+	}
+
+	public void setWeathers(List<Weather> weathers) {
+		this.weathers = weathers;
 	}
 }

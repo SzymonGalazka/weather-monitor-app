@@ -10,6 +10,10 @@ import java.math.BigDecimal;
 @Entity
 public class Weather extends AbstractDomainClass {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "WEATHER_ID")
+	private Integer id;
 	private String city;
 	private String main;
 	private String description;
@@ -99,5 +103,15 @@ public class Weather extends AbstractDomainClass {
 
 	public void setTempMax(double tempMax) {
 		this.tempMax = tempMax;
+	}
+
+	@Override
+	public Integer getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(Integer id) {
+		this.id = id;
 	}
 }

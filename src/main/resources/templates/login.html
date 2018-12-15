@@ -11,8 +11,7 @@
 	<div class="login-card">
 		<h3 th:if="${param.error}">Invalid username and password</h3>
 		<h3 th:if="${param.logout}">You have been logged out</h3>
-		<h3 th:if="${registeredName}">You have been succesfully registered as <span th:text="${registeredName}"></span>. Please, sign in!
-		</h3>
+		<h3 th:if="${registeredName}">You have been succesfully registered as <span th:text="${registeredName}"></span>. Please, sign in!</h3>
 		<h3 th:text="${registeredName}">You have been successfully registered, please sign in!</h3>
 		<form th:action="@{/login}" method="post">
 			<table class="table table-striped">
