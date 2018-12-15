@@ -2,36 +2,36 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<div th:replace="header :: header-css"/>
-	<link rel="stylesheet" th:href="@{/css/main.css}"/>
-	<title>WeatherMonitor - Register</title>
+	<link rel="stylesheet" th:href="@{/css/login.css}"/>
+	<title>Registration</title>
 </head>
 <body>
 <div th:replace="header :: header"/>
-<div class="container">
-	<div th:if="${param.error}">
-		<label style="color:red">Invalid username and password.</label>
+<div class="container-fluid">
+	<div class="login-card mx-auto d-flex flex-column justify-items-center rounded">
+		<div class="mx-auto"><h2 class="mb-3 mt-1 mx-auto">Create an account</h2></div>
+		<div th:if="${param.error}">
+			<h5 class="mx-auto weather-alert">Invalid username and password.</h5>
+		</div>
+		<form th:action="@{/register}" method="post">
+			<div class="my-1">
+				<label> User Name :</label>
+				<input class="weather-input rounded" type="text" name="username"/>
+			</div>
+			<div class="my-1">
+				<label> Password :</label>
+				<input class="weather-input rounded" type="password" name="password" id="password"/>
+			</div>
+			<div class="my-1">
+				<label> Password :</label>
+				<input class="weather-input rounded" type="password" name="confirmPassword" id="confirmPassword"/>
+				<span id='message'></span>
+			</div>
+			<div>
+				<button type="submit" class="btn btn-default weather-button rounded mt-2">Sign Up</button>
+			</div>
+		</form>
 	</div>
-	<form th:action="@{/register}" method="post">
-		<table class="table table-striped">
-			<tr>
-				<td><label> User Name : <input type="text" name="username"/> </label></td>
-			</tr>
-			<tr>
-				<td><label> Password :
-					<input type="password" name="password" id="password"/> </label></td>
-			</tr>
-			<tr>
-				<td><label> Confirm Password :
-					<input type="password" name="confirmPassword" id="confirmPassword"/>
-					<span id='message'></span></label></td>
-			</tr>
-			<tr>
-				<td>
-					<button type="submit" class="btn btn-default">Sign In</button>
-				</td>
-			</tr>
-		</table>
-	</form>
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

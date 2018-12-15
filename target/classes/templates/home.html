@@ -2,69 +2,75 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
 	<meta charset="UTF-8"/>
-	<title>WeatherMonitor </title>
+	<title>WeatherMonitor</title>
 	<div th:replace="header :: header-css"/>
+	<link rel="stylesheet" th:href="@{/css/home.css}"/>
 </head>
 <body>
 <div th:replace="header :: header"/>
-<h1>Hello <span sec:authentication="name"></span>!</h1>
-<p>Welcome to <span th:text="${appName}">Our App</span></p>
+<div class="container-fluid">
+	<div class="home-card mx-auto d-flex flex-column justify-items-center rounded">
+		<h1>Hello <span sec:authentication="name"></span>!</h1>
+		<p>Welcome to <span th:text="${appName}">Our App</span></p>
 
-<section sec:authorize="hasAuthority('USER')" class="container-fluid align-items-center pl-5 ml-5 justify-items-center">
-	<div id="weather-result">
-		<div id="result-city"></div>
-		<div id="result-main"></div>
-		<div id="result-description"></div>
-		<div id="result-temp"></div>
-		<div id="result-temp-min"></div>
-		<div id="result-temp-max"></div>
-	</div>
-	<fieldset>
-		<h2>Where should I check the weather?</h2>
-		<div th:if="${param.error}">
-			<div class="alert alert-danger">
-				Invalid city
+		<section sec:authorize="hasAuthority('USER')" class="container-fluid">
+			<div id="weather-result">
+				<div id="result-city"></div>
+				<div id="result-main"></div>
+				<div id="result-description"></div>
+				<div id="result-temp"></div>
+				<div id="result-temp-min"></div>
+				<div id="result-temp-max"></div>
 			</div>
-		</div>
-		<div class="form-group col-lg-6">
-			<input type="text" name="city" id="city"
-			       placeholder="city" required="true"/>
-		</div>
-	</fieldset>
-	<div class="row">
-		<div class="col-lg-6">
-			<input type="submit" class="btn btn-lg btn-primary btn-block" value="Check weather" onclick="checkWeather()"/>
-		</div>
+			<fieldset>
+				<h2>Where should I check the weather?</h2>
+				<div th:if="${param.error}">
+					<div class="alert alert-danger">
+						Invalid city
+					</div>
+				</div>
+				<div class="form-group col-lg-6">
+					<input class="weather-input" type="text" name="city" id="city"
+					       placeholder="city" required="true"/>
+				</div>
+			</fieldset>
+			<div class="row">
+				<div class="col-lg-6">
+					<input type="submit" class="btn btn-lg weather-button" value="Check weather"
+					       onclick="checkWeather()"/>
+				</div>
+			</div>
+		</section>
+		<!--ADMIN-->
+		<section sec:authorize="hasAuthority('ADMIN')">
+			<h3>Text visible to admin.</h3>
+			<table class="admin-table">
+				<tr>
+					<th>Index</th>
+					<th>User</th>
+					<th>Delete user</th>
+				</tr>
+				<tr th:each="user : ${users}">
+					<td id="userId" th:text="${user.id}"></td>
+					<td th:text="${user.username}">User</td>
+					<td th:text="${user.failedLoginAttempts}">Attempts</td>
+					<td>
+						<form th:method="DELETE" th:action="${'/users/delete/' + user.id}">
+							<button type="submit" class="btn btn-default">Delete</button>
+						</form>
+					</td>
+				<tr class="weather-history" th:each="weather : ${user.weathers}">
+					<td th:text="${weather.dateCreated}"></td>
+					<td th:text="${weather.city}"></td>
+					<td th:text="${weather.main}"></td>
+					<td th:text="${weather.description}"></td>
+					<td th:text="${weather.temp}"></td>
+				</tr>
+				</tr>
+			</table>
+		</section>
 	</div>
-</section>
-<!--ADMIN-->
-<section sec:authorize="hasAuthority('ADMIN')">
-	<h3>Text visible to admin.</h3>
-	<table class="admin-table">
-		<tr>
-			<th>Index</th>
-			<th>User</th>
-			<th>Delete user</th>
-		</tr>
-		<tr th:each="user : ${users}">
-			<td id="userId" th:text="${user.id}"></td>
-			<td th:text="${user.username}">User</td>
-			<td th:text="${user.failedLoginAttempts}">Attempts</td>
-			<td>
-				<form th:method="DELETE" th:action="${'/users/delete/' + user.id}">
-					<button type="submit" class="btn btn-default">Delete</button>
-				</form>
-			</td>
-		<tr class="weather-history" th:each="weather : ${user.weathers}">
-			<td th:text="${weather.dateCreated}"></td>
-			<td th:text="${weather.city}"></td>
-			<td th:text="${weather.main}"></td>
-			<td th:text="${weather.description}"></td>
-			<td th:text="${weather.temp}"></td>
-		</tr>
-		</tr>
-	</table>
-</section>
+</div>
 </body>
 <script type="text/javascript">
     function checkWeather() {
