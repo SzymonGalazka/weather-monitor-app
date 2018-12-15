@@ -2,18 +2,17 @@
 <head>
 	<div th:fragment="header-css">
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-		      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
-
-		<link rel="stylesheet" th:href="@{/css/main.css}"
-		      href="../static/css/main.css"/>
+		      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,600|Staatliches" rel="stylesheet"/>
+		<link rel="stylesheet" th:href="@{/css/header.css}"/>
 	</div>
 </head>
 <body>
 <div th:fragment="header">
-	<nav class="navbar weather-header navbar-inverse">
+	<nav class="navbar weather-header">
 		<div class="container">
 			<div class="navbar-header">
-				<a class="navbar-brand" th:href="@{/home}">WeatherMonitor</a>
+				<a class="navbar-brand weather-brand" th:href="@{/home}">Weather Monitor</a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
@@ -21,11 +20,11 @@
 				</ul>
 			</div>
 			<span sec:authorize="hasAuthority('USER')">
-                <a th:href="@{/history}">History</a>
+                <a class="navbar-link" th:href="@{/history}">History</a>
             </span>
 			<span sec:authorize="isAuthenticated()">
                 Logged user: <span sec:authentication="name"></span>
-                <a th:href="@{/logout}">Sign Out</a>
+                <a class="navbar-link" th:href="@{/logout}">Sign Out</a>
             </span>
 		</div>
 	</nav>

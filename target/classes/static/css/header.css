@@ -1,0 +1,40 @@
+body {
+    font-family: 'Montserrat', sans-serif !important;
+    color: #EAF0CE !important;
+}
+
+textarea:focus, input:focus {
+    outline: none;
+}
+
+a {
+    text-underline: none;
+}
+
+.weather-header {
+    font-family: 'Staatliches', cursive !important;
+    background-color: #202C39;
+    color: #F2D492 !important;
+    margin-bottom: 5rem;
+}
+
+.weather-brand, a {
+    color: #F2D492 !important;
+}
+
+.weather-input {
+    width: 100%;
+    padding: 10px;
+    color: #F2D492;
+    background: #202C39;
+    border: none;
+}
+
+.weather-button {
+    background: #F2D492;
+    color: #202C39;
+}
+
+.weather-alert {
+    color: #F49B90 !important;
+}
