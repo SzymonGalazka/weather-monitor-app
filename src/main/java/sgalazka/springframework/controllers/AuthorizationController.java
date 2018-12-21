@@ -31,12 +31,13 @@ public class AuthorizationController {
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ModelAndView signUp(UserCreds userCreds) {
+		ModelAndView mav = new ModelAndView("login");
+
 		if (Objects.nonNull(userRepository.findByUsername(userCreds.getUsername()))) {
 			throw new UserAlreadyInUseException("User already registered!");
 		}
 
 		String registeredName = userService.registerUserAndGetName(userCreds);
-		ModelAndView mav = new ModelAndView("login");
 		mav.addObject("registeredName", registeredName);
 		return mav;
 	}

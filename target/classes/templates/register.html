@@ -28,7 +28,7 @@
 				<span id='message'></span>
 			</div>
 			<div>
-				<button type="submit" class="btn btn-default weather-button rounded mt-3 mb-5">Sign Up</button>
+				<button type="submit" id="submit" class="btn btn-default weather-button rounded mt-3 mb-5">Sign Up</button>
 			</div>
 		</form>
 	</div>
@@ -41,9 +41,10 @@
         if ($('#password').val() == $('#confirmPassword').val()) {
             $('#message').html('Matching').css('color', 'green');
             $('#submit').prop('disabled', false);
-        } else
+        } else {
             $('#message').html('Not Matching').css('color', 'red');
-        $('#submit').prop('disabled', true);
+            $('#submit').prop('disabled', true);
+        }
     });
 </script>
 </html>

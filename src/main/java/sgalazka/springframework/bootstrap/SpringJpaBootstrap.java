@@ -3,12 +3,9 @@ package sgalazka.springframework.bootstrap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import sgalazka.springframework.domain.Product;
 import sgalazka.springframework.domain.Role;
 import sgalazka.springframework.domain.User;
 import sgalazka.springframework.domain.Weather;
-import sgalazka.springframework.repositories.ProductRepository;
-import sgalazka.springframework.repositories.UserRepository;
 import sgalazka.springframework.services.RoleService;
 import sgalazka.springframework.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +13,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import sgalazka.springframework.services.WeatherService;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Component
@@ -62,7 +58,7 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
 		weather.setTempMin(2.0);
 		weather.setTempMax(7.4);
 
-		weatherService.saveWeather(weather, 2);
+
 		weatherService.saveWeather(weather, 4);
 
 		Weather weather2 = new Weather();
@@ -73,9 +69,17 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
 		weather2.setTempMin(-1.3);
 		weather2.setTempMax(3.4);
 
-		weatherService.saveWeather(weather2, 2);
 		weatherService.saveWeather(weather2, 3);
 
+		Weather weather3 = new Weather();
+		weather2.setCity("Sosnowiec");
+		weather2.setMain("Fog");
+		weather2.setDescription("Heavy Fog");
+		weather2.setTemp(2.0);
+		weather2.setTempMin(-1.3);
+		weather2.setTempMax(3.4);
+
+		weatherService.saveWeather(weather3, 4);
 	}
 
 	private void loadUsers() {
