@@ -8,6 +8,18 @@ body {
     background: #2C3E51;
 }
 
+.weather-result {
+    opacity: 0.1;
+    height: 200px;
+    background: url("../images/weather.png") repeat center;
+    background-size: 10%;
+    -webkit-transition: opacity 400ms;
+    -moz-transition: opacity 400ms;
+    -ms-transition: opacity 400ms;
+    -o-transition: opacity 400ms;
+    transition: opacity 400ms;
+}
+
 .admin-table tr {
     border: 1.5rem solid transparent;
 }

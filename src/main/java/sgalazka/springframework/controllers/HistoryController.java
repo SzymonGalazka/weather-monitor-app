@@ -12,8 +12,8 @@ import sgalazka.springframework.services.UserService;
 import sgalazka.springframework.services.security.UserDetailsImpl;
 
 @Controller
-@RequestMapping(value = {"/", "/home"})
-public class HomeController {
+@RequestMapping(value = {"/history"})
+public class HistoryController {
 
 	@Value("${spring.application.name}")
 	String appName;
@@ -22,11 +22,12 @@ public class HomeController {
 	UserService userService;
 
 	@GetMapping
-	String home(Model model) {
+	String history(Model model) {
 		model.addAttribute("appName", appName);
-		if (userService.checkIfAdmin()) {
-			model.addAttribute("users", userService.listAllWithoutAdmin());
-		}
-		return "home";
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+		Integer userId = userDetails.getUserId();
+		model.addAttribute("user", userService.getById(userId));
+		return "history";
 	}
 }

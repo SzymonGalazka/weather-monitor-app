@@ -12,6 +12,8 @@ a {
 }
 
 .weather-header {
+    position: fixed;
+    width: 100%;
     font-family: 'Staatliches', cursive !important;
     background-color: #202C39;
     color: #F2D492 !important;

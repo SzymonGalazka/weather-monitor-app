@@ -23,11 +23,12 @@
                 <a class="navbar-link" th:href="@{/history}">History</a>
             </span>
 			<span sec:authorize="isAuthenticated()">
-                Logged user: <span sec:authentication="name"></span>
-                <a class="navbar-link" th:href="@{/logout}">Sign Out</a>
+                Logged user:  <span sec:authentication="name"></span>
+                <a class="navbar-link ml-5" th:href="@{/logout}">Sign Out</a>
             </span>
 		</div>
 	</nav>
+	<div style="width: 100%; height: 150px;"></div>
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

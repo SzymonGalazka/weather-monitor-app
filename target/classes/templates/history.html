@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8"/>
+	<title>WeatherMonitor</title>
+	<div th:replace="header :: header-css"/>
+	<link rel="stylesheet" th:href="@{/css/home.css}"/>
+</head>
+<body>
+<div th:replace="header :: header"/>
+<div class="container-fluid">
+	<div class="home-card mx-auto d-flex flex-column justify-items-center rounded">
+		<h1>Hello <span sec:authentication="name"></span>!</h1>
+		<section sec:authorize="hasAuthority('USER')" class="container-fluid">
+			<h3 class="my-4">This is your history</h3>
+			<table class="w-100">
+				<tr>
+					<th>Date</th>
+					<th>City</th>
+					<th>Short desc</th>
+					<th>Long desc</th>
+					<th>Avg temp</th>
+				</tr>
+				<tr th:each="weather : ${user.weathers}">
+					<td th:text="${weather.dateCreated}"></td>
+					<td th:text="${weather.city}"></td>
+					<td th:text="${weather.main}"></td>
+					<td th:text="${weather.description}"></td>
+					<td th:text="${weather.temp + ' C'}"></td>
+				</tr>
+			</table>
+		</section>
+	</div>
+</div>
+</body>
+</html>

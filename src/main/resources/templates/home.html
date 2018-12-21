@@ -14,24 +14,20 @@
 		<p>Welcome to <span th:text="${appName}">Our App</span></p>
 
 		<section sec:authorize="hasAuthority('USER')" class="container-fluid">
-			<div id="weather-result">
-				<div id="result-city"></div>
-				<div id="result-main"></div>
-				<div id="result-description"></div>
-				<div id="result-temp"></div>
-				<div id="result-temp-min"></div>
-				<div id="result-temp-max"></div>
-			</div>
-			<fieldset>
-				<h2>Where should I check the weather?</h2>
-				<div th:if="${param.error}">
-					<div class="alert alert-danger">
-						Invalid city
+			<fieldset class="my-5">
+				<div class="row">
+					<div class="form-group pl-0 my-4 col-lg-6">
+						<h2 class="mb-5">Where should I check the weather?</h2>
+						<input class="weather-input mt`-5" type="text" name="city" id="city"
+						       placeholder="city" required="true"/>
 					</div>
-				</div>
-				<div class="form-group col-lg-6">
-					<input class="weather-input" type="text" name="city" id="city"
-					       placeholder="city" required="true"/>
+					<div id="weather-result"
+					     class="col-lg-6 d-flex p-4 flex-column weather-result rounded">
+						<h1><span id="result-city"></span>, <span id="result-temp"></span>°C</h1>
+						<h5>min <span id="result-temp-min"></span>°C</h5>
+						<h5>max <span id="result-temp-max"></span>°C</h5>
+						<h4><span id="result-main"></span>, <span id="result-description"></span></h4>
+					</div>
 				</div>
 			</fieldset>
 			<div class="row">
@@ -41,23 +37,6 @@
 				</div>
 			</div>
 			<hr class="mt-5 mb-2"/>
-			<h2>History</h2>
-			<table class="w-100">
-				<tr>
-					<th>Date</th>
-					<th>City</th>
-					<th>Short desc</th>
-					<th>Long desc</th>
-					<th>Avg temp</th>
-				</tr>
-				<tr th:each="weather : ${user.weathers}">
-					<td th:text="${weather.dateCreated}"></td>
-					<td th:text="${weather.city}"></td>
-					<td th:text="${weather.main}"></td>
-					<td th:text="${weather.description}"></td>
-					<td th:text="${weather.temp}"></td>
-				</tr>
-			</table>
 		</section>
 		<!--ADMIN-->
 		<section sec:authorize="hasAuthority('ADMIN')">
@@ -103,10 +82,11 @@
                     document.getElementById("result-temp").innerHTML = result.temp;
                     document.getElementById("result-temp-min").innerHTML = result.tempMin;
                     document.getElementById("result-temp-max").innerHTML = result.tempMax;
+                    document.getElementById("weather-result").style.opacity = "1";
                 } else if (xmlhttp.status === 400) {
                     alert('There was an error 400');
                 } else {
-                    alert('something else other than 200 was returned');
+                    alert('Invalid city!');
                 }
             }
         };
