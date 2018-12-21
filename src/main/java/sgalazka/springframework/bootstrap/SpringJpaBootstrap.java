@@ -6,12 +6,15 @@ import org.springframework.stereotype.Component;
 import sgalazka.springframework.domain.Product;
 import sgalazka.springframework.domain.Role;
 import sgalazka.springframework.domain.User;
+import sgalazka.springframework.domain.Weather;
 import sgalazka.springframework.repositories.ProductRepository;
+import sgalazka.springframework.repositories.UserRepository;
 import sgalazka.springframework.services.RoleService;
 import sgalazka.springframework.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import sgalazka.springframework.services.WeatherService;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,15 +22,15 @@ import java.util.List;
 @Component
 public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
-	private ProductRepository productRepository;
+	private WeatherService weatherService;
 	private UserService userService;
 	private RoleService roleService;
 
 	private Logger log = LoggerFactory.getLogger(SpringJpaBootstrap.class);
 
 	@Autowired
-	public void setProductRepository(ProductRepository productRepository) {
-		this.productRepository = productRepository;
+	public void setWeatherService(WeatherService weatherService) {
+		this.weatherService = weatherService;
 	}
 
 	@Autowired
@@ -43,31 +46,37 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-		loadProducts();
 		loadUsers();
 		loadRoles();
+		loadHistory();
 		assignUsersToUserRole();
 		assignUsersToAdminRole();
 	}
 
-	private void loadProducts() {
-		Product shirt = new Product();
-		shirt.setDescription("Spring Framework Guru Shirt");
-		shirt.setPrice(new BigDecimal("18.95"));
-		shirt.setImageUrl("https://springframework.sgalazka/wp-content/uploads/2015/04/spring_framework_guru_shirt-rf412049699c14ba5b68bb1c09182bfa2_8nax2_512.jpg");
-		shirt.setProductId("235268845711068308");
-		productRepository.save(shirt);
+	private void loadHistory() {
+		Weather weather = new Weather();
+		weather.setCity("Tokio");
+		weather.setMain("Clear");
+		weather.setDescription("Clear Sky");
+		weather.setTemp(5.0);
+		weather.setTempMin(2.0);
+		weather.setTempMax(7.4);
 
-		log.info("Saved Shirt - id: " + shirt.getId());
+		weatherService.saveWeather(weather, 2);
+		weatherService.saveWeather(weather, 4);
 
-		Product mug = new Product();
-		mug.setDescription("Spring Framework Guru Mug");
-		mug.setImageUrl("https://springframework.sgalazka/wp-content/uploads/2015/04/spring_framework_guru_coffee_mug-r11e7694903c348e1a667dfd2f1474d95_x7j54_8byvr_512.jpg");
-		mug.setProductId("168639393495335947");
-		mug.setPrice(new BigDecimal("11.95"));
-		productRepository.save(mug);
+		Weather weather2 = new Weather();
+		weather2.setCity("Warsaw");
+		weather2.setMain("Clouds");
+		weather2.setDescription("Heavy Rain");
+		weather2.setTemp(2.0);
+		weather2.setTempMin(-1.3);
+		weather2.setTempMax(3.4);
 
-		log.info("Saved Mug - id:" + mug.getId());
+
+		weatherService.saveWeather(weather2, 2);
+		weatherService.saveWeather(weather2, 3);
+
 	}
 
 	private void loadUsers() {

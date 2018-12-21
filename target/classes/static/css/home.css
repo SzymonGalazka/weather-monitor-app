@@ -12,7 +12,7 @@ body {
     opacity: 0.1;
     height: 200px;
     background: url("../images/weather.png") repeat center;
-    background-size: 10%;
+    background-size: 13rem;
     -webkit-transition: opacity 400ms;
     -moz-transition: opacity 400ms;
     -ms-transition: opacity 400ms;
