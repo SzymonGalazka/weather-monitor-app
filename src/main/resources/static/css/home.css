@@ -7,3 +7,24 @@ body {
     width: 80%;
     background: #2C3E51;
 }
+
+.admin-table tr {
+    border: 1.5rem solid transparent;
+}
+
+.admin-table th {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.weather-history {
+    font-size: 0.7rem;
+    background: #142e51;
+    color: #feecec;
+    width: 200%;
+}
+
+.weather-history td {
+    padding-left: 30px;
+    padding-right: 30px;
+}

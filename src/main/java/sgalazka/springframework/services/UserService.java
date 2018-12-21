@@ -2,6 +2,7 @@ package sgalazka.springframework.services;
 
 import sgalazka.springframework.common.pojo.UserCreds;
 import sgalazka.springframework.domain.User;
+import sgalazka.springframework.domain.Weather;
 
 import java.util.List;
 

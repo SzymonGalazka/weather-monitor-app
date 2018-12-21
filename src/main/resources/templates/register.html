@@ -8,12 +8,12 @@
 <body>
 <div th:replace="header :: header"/>
 <div class="container-fluid">
-	<div class="login-card mx-auto d-flex flex-column justify-items-center rounded">
+	<div class="login-card m-auto d-flex flex-column justify-items-center rounded">
 		<div class="mx-auto"><h2 class="mb-3 mt-1 mx-auto">Create an account</h2></div>
 		<div th:if="${param.error}">
 			<h5 class="mx-auto weather-alert">Invalid username and password.</h5>
 		</div>
-		<form th:action="@{/register}" method="post">
+		<form th:action="@{/register}" method="post" class="mx-5">
 			<div class="my-1">
 				<label> User Name :</label>
 				<input class="weather-input rounded" type="text" name="username"/>
@@ -23,12 +23,12 @@
 				<input class="weather-input rounded" type="password" name="password" id="password"/>
 			</div>
 			<div class="my-1">
-				<label> Password :</label>
+				<label> Confirm password :</label>
 				<input class="weather-input rounded" type="password" name="confirmPassword" id="confirmPassword"/>
 				<span id='message'></span>
 			</div>
 			<div>
-				<button type="submit" class="btn btn-default weather-button rounded mt-2">Sign Up</button>
+				<button type="submit" class="btn btn-default weather-button rounded mt-3 mb-5">Sign Up</button>
 			</div>
 		</form>
 	</div>

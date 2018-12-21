@@ -1,5 +1,6 @@
 package sgalazka.springframework.controllers;
 
+import org.springframework.web.bind.annotation.RequestMethod;
 import sgalazka.springframework.common.exceptions.UserAlreadyInUseException;
 import sgalazka.springframework.common.pojo.UserCreds;
 import sgalazka.springframework.repositories.UserRepository;
@@ -15,8 +16,7 @@ import java.util.Objects;
 
 
 @Controller
-@RequestMapping("/register")
-public class RegisterController {
+public class AuthorizationController {
 
 	@Autowired
 	private UserRepository userRepository;
@@ -24,12 +24,12 @@ public class RegisterController {
 	@Autowired
 	private UserService userService;
 
-	@GetMapping
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String showRegister() {
 		return "register";
 	}
 
-	@PostMapping
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ModelAndView signUp(UserCreds userCreds) {
 		if (Objects.nonNull(userRepository.findByUsername(userCreds.getUsername()))) {
 			throw new UserAlreadyInUseException("User already registered!");
@@ -40,4 +40,10 @@ public class RegisterController {
 		mav.addObject("registeredName", registeredName);
 		return mav;
 	}
+
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String login() {
+		return "login";
+	}
+
 }

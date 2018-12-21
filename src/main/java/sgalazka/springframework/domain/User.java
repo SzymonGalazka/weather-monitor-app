@@ -116,8 +116,13 @@ public class User {
 		return failedLoginAttempts;
 	}
 
+
 	public void setFailedLoginAttempts(Integer failedLoginAttempts) {
 		this.failedLoginAttempts = failedLoginAttempts;
+	}
+
+	public void incrementFailedLoginAttempts() {
+		failedLoginAttempts++;
 	}
 
 	public List<Weather> getWeathers() {

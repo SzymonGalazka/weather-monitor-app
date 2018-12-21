@@ -6,6 +6,7 @@ import sgalazka.springframework.common.pojo.UserCreds;
 import sgalazka.springframework.domain.Role;
 import sgalazka.springframework.domain.User;
 
+import sgalazka.springframework.domain.Weather;
 import sgalazka.springframework.repositories.UserRepository;
 import sgalazka.springframework.services.security.EncryptionService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -40,27 +40,44 @@
 					       onclick="checkWeather()"/>
 				</div>
 			</div>
+			<hr class="mt-5 mb-2"/>
+			<h2>History</h2>
+			<table class="w-100">
+				<tr>
+					<th>Date</th>
+					<th>City</th>
+					<th>Short desc</th>
+					<th>Long desc</th>
+					<th>Avg temp</th>
+				</tr>
+				<tr th:each="weather : ${user.weathers}">
+					<td th:text="${weather.dateCreated}"></td>
+					<td th:text="${weather.city}"></td>
+					<td th:text="${weather.main}"></td>
+					<td th:text="${weather.description}"></td>
+					<td th:text="${weather.temp}"></td>
+				</tr>
+			</table>
 		</section>
 		<!--ADMIN-->
 		<section sec:authorize="hasAuthority('ADMIN')">
 			<h3>Text visible to admin.</h3>
-			<table class="admin-table">
+			<table class="admin-table w-100">
 				<tr>
-					<th>Index</th>
+					<th>ID</th>
 					<th>User</th>
 					<th>Delete user</th>
 				</tr>
 				<tr th:each="user : ${users}">
 					<td id="userId" th:text="${user.id}"></td>
 					<td th:text="${user.username}">User</td>
-					<td th:text="${user.failedLoginAttempts}">Attempts</td>
 					<td>
 						<form th:method="DELETE" th:action="${'/users/delete/' + user.id}">
-							<button type="submit" class="btn btn-default">Delete</button>
+							<button type="submit" class="btn btn-default weather-button">Delete</button>
 						</form>
 					</td>
-				<tr class="weather-history" th:each="weather : ${user.weathers}">
-					<td th:text="${weather.dateCreated}"></td>
+				<tr class="weather-history rounded p-3" th:each="weather : ${user.weathers}">
+					<td class="pl-4" th:text="${weather.dateCreated}"></td>
 					<td th:text="${weather.city}"></td>
 					<td th:text="${weather.main}"></td>
 					<td th:text="${weather.description}"></td>

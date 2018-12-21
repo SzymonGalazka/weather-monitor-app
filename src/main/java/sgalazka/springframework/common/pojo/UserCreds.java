@@ -1,8 +1,5 @@
 package sgalazka.springframework.common.pojo;
 
-/**
- * Created by Piotrek on 06.12.2018.
- */
 public class UserCreds {
 
 	private Integer id;

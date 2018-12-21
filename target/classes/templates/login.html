@@ -8,7 +8,7 @@
 <body>
 <div th:replace="header :: header"/>
 <div class="container-fluid">
-	<div class="login-card mx-auto d-flex flex-column justify-items-center rounded">
+	<div class="login-card m-auto d-flex flex-column justify-items-center rounded">
 		<div class="mx-auto"><h2 class="mb-3 mt-1 mx-auto">Login to app</h2></div>
 		<h5 class="mx-auto weather-alert" th:if="${param.error}">Invalid username and password</h5>
 		<h5 class="mx-auto weather-alert" th:if="${param.logout}">You have been logged out</h5>
@@ -16,7 +16,7 @@
 				th:text="${registeredName}"></span>.
 			Please, sign in!
 		</h5>
-		<form th:action="@{/login}" method="post" class="my-2">
+		<form th:action="@{/login}" method="post" class="my-2 mx-5">
 			<div class="my-1">
 				<label> User Name :</label>
 				<input class="weather-input rounded" type="text" name="username"/>
@@ -26,7 +26,7 @@
 				<input class="weather-input rounded" type="password" name="password"/>
 			</div>
 			<div>
-				<button type="submit" class="btn btn-default weather-button rounded mt-2">Sign In</button>
+				<button type="submit" class="btn btn-default weather-button rounded mt-3">Sign In</button>
 			</div>
 		</form>
 		<label class="mx-auto">Don't have an account? <a th:href="@{/register}">Register</a></label>
