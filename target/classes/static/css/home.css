@@ -9,15 +9,15 @@ body {
 }
 
 .weather-result {
-    opacity: 0.1;
+    opacity: 0;
     height: 200px;
     background: url("../images/weather.png") repeat center;
     background-size: 13rem;
-    -webkit-transition: opacity 400ms;
-    -moz-transition: opacity 400ms;
-    -ms-transition: opacity 400ms;
-    -o-transition: opacity 400ms;
-    transition: opacity 400ms;
+    -webkit-transition: opacity 500ms;
+    -moz-transition: opacity 500ms;
+    -ms-transition: opacity 500ms;
+    -o-transition: opacity 500ms;
+    transition: opacity 500ms;
 }
 
 .admin-table tr {

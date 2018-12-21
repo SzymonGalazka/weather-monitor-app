@@ -73,7 +73,6 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
 		weather2.setTempMin(-1.3);
 		weather2.setTempMax(3.4);
 
-
 		weatherService.saveWeather(weather2, 2);
 		weatherService.saveWeather(weather2, 3);
 
