@@ -34,19 +34,16 @@ public class User {
 	@JoinTable
 	private List<Role> roles = new ArrayList<>();
 
-	private Integer failedLoginAttempts = 0;
-
 	public User() {
 	}
 
-	public User(String username, String password, String encryptedPassword, Boolean enabled, List<Weather> weathers, List<Role> roles, Integer failedLoginAttempts) {
+	public User(String username, String password, String encryptedPassword, Boolean enabled, List<Weather> weathers, List<Role> roles) {
 		this.username = username;
 		this.password = password;
 		this.encryptedPassword = encryptedPassword;
 		this.enabled = enabled;
 		this.weathers = weathers;
 		this.roles = roles;
-		this.failedLoginAttempts = failedLoginAttempts;
 	}
 
 	public String getUsername() {
@@ -110,19 +107,6 @@ public class User {
 	public void removeRole(Role role) {
 		this.roles.remove(role);
 		role.getUsers().remove(this);
-	}
-
-	public Integer getFailedLoginAttempts() {
-		return failedLoginAttempts;
-	}
-
-
-	public void setFailedLoginAttempts(Integer failedLoginAttempts) {
-		this.failedLoginAttempts = failedLoginAttempts;
-	}
-
-	public void incrementFailedLoginAttempts() {
-		failedLoginAttempts++;
 	}
 
 	public List<Weather> getWeathers() {
