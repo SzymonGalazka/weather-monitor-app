@@ -19,6 +19,7 @@ import sgalazka.springframework.domain.Weather;
 import sgalazka.springframework.repositories.UserRepository;
 import sgalazka.springframework.repositories.WeatherRepository;
 
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -81,17 +82,19 @@ public class WeatherServiceImpl implements WeatherService {
 	}
 
 	@Override
-	public List<Double> calculateStats(Page<Weather> weatherPage) {
+	public List<String> calculateStats(Page<Weather> weatherPage) {
+
+		DecimalFormat df2 = new DecimalFormat(".##");
 
 		OptionalDouble maxTemp = weatherPage.getContent().stream().mapToDouble(Weather::getTemp).max();
 		OptionalDouble minTemp = weatherPage.getContent().stream().mapToDouble(Weather::getTemp).min();
 		OptionalDouble avgTemp = weatherPage.getContent().stream().mapToDouble(Weather::getTemp).average();
 
-		List<Double> tempStats = new ArrayList<>();
+		List<String> tempStats = new ArrayList<>();
 
-		tempStats.add(maxTemp.getAsDouble());
-		tempStats.add(minTemp.getAsDouble());
-		tempStats.add(avgTemp.getAsDouble());
+		tempStats.add("Max temperature: " + df2.format(maxTemp.getAsDouble()) + " C");
+		tempStats.add("Min temperature: " + df2.format(minTemp.getAsDouble()) + " C");
+		tempStats.add("Average temperature: " + df2.format(avgTemp.getAsDouble()) + " C");
 
 		return tempStats;
 	}

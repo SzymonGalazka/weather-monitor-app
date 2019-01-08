@@ -22,5 +22,5 @@ public interface WeatherService extends CRUDService<Weather> {
 
 	Weather getWeatherForCity(String city, Integer userId);
 
-	List<Double> calculateStats(Page<Weather> weatherPage);
+	List<String> calculateStats(Page<Weather> weatherPage);
 }

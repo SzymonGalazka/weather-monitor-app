@@ -31,11 +31,6 @@
 			</form>
 			<table th:if="${weatherStats}">
 				<h5>Temperature Stats: </h5>
-				<tr>
-					<td>Max temp</td>
-					<td>Min temp</td>
-					<td>Avg temp</td>
-				</tr>
 				<tr th:each="weatherStats : ${weatherStats}">
 					<td th:text="${weatherStats}"></td>
 				</tr>
