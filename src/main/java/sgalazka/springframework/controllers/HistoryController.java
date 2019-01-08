@@ -38,7 +38,8 @@ public class HistoryController {
 	@GetMapping
 	String history(Model model,
 				   @RequestParam("page") Optional<Integer> page,
-				   @RequestParam("size") Optional<Integer> size) {
+				   @RequestParam("size") Optional<Integer> size,
+				   @RequestParam("city") Optional<String> city) {
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(10);
 
@@ -47,10 +48,11 @@ public class HistoryController {
 		Integer userId = userDetails.getUserId();
 
 		Page<Weather> weatherPage = weatherService.listPaginated
-				(new PageRequest(currentPage - 1, pageSize), userId);
-
+				(new PageRequest(currentPage - 1, pageSize), userId, city);
 		model.addAttribute("weatherPage", weatherPage);
-
+		if (weatherPage.getTotalElements() > 0) {
+			model.addAttribute("weatherStats", weatherService.calculateStats(weatherPage));
+		}
 		int totalPages = weatherPage.getTotalPages();
 		if (totalPages > 0) {
 			List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
@@ -59,7 +61,6 @@ public class HistoryController {
 			model.addAttribute("pageNumbers", pageNumbers);
 		}
 		model.addAttribute("appName", appName);
-		model.addAttribute("user", userService.getById(userId));
 		return "history";
 	}
 }

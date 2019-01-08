@@ -3,10 +3,10 @@ package sgalazka.springframework.services;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 import sgalazka.springframework.domain.Weather;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface WeatherService extends CRUDService<Weather> {
 
@@ -14,9 +14,13 @@ public interface WeatherService extends CRUDService<Weather> {
 
 	void deleteAllWeatherForUserId(Integer userId);
 
-	Page<Weather> listPaginated(Pageable pageable, Integer userId);
+	Page<Weather> listPaginated(Pageable pageable, Integer userId, Optional<String> city);
 
 	List<Weather> findAllByUserId(Integer userId);
 
+	List<Weather> findAllByCity(String city, Integer userId);
+
 	Weather getWeatherForCity(String city, Integer userId);
+
+	List<Double> calculateStats(Page<Weather> weatherPage);
 }

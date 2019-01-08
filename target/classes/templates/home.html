@@ -5,6 +5,13 @@
 	<title>WeatherMonitor</title>
 	<div th:replace="header :: header-css"/>
 	<link rel="stylesheet" th:href="@{/css/home.css}"/>
+	<style>
+		.weather-pagination {
+			display: inline-flex;
+			padding-left: 14px;
+		}
+
+	</style>
 </head>
 <body>
 <div th:replace="header :: header"/>
@@ -47,7 +54,7 @@
 					<th>User</th>
 					<th>Delete user</th>
 				</tr>
-				<tr th:each="user : ${users}">
+				<tr th:each="user : ${userPage.content}">
 					<td id="userId" th:text="${user.id}"></td>
 					<td th:text="${user.username}">User</td>
 					<td>
@@ -64,6 +71,13 @@
 				</tr>
 				</tr>
 			</table>
+			<span>Pages: </span>
+			<div th:if="${userPage.totalPages > 0}" class="weather-pagination"
+			     th:each="pageNumber : ${pageNumbers}">
+				<a th:href="@{/home(size=${userPage.size}, page=${pageNumber})}"
+				   th:text="${pageNumber}"
+				   th:class="${pageNumber==userPage.number + 1} ? active"></a>
+			</div>
 		</section>
 	</div>
 </div>

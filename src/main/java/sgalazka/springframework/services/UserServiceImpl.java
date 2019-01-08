@@ -1,5 +1,9 @@
 package sgalazka.springframework.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import sgalazka.springframework.common.pojo.UserCreds;
@@ -16,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sgalazka.springframework.services.security.UserDetailsImpl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.toList;
@@ -105,14 +110,26 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> listAllWithoutAdmin() {
+	public Page<User> listAllWithoutAdmin(Pageable pageable) {
 		List<User> users = new ArrayList<>();
 		userRepository.findAll().forEach(users::add);
 		users.stream()
 				.filter(user -> user.getUsername().toUpperCase().equals("ADMIN"))
 				.findFirst()
 				.map(users::remove);
-		return users;
+		int pageSize = pageable.getPageSize();
+		int currentPage = pageable.getPageNumber();
+		int startItem = currentPage * pageSize;
+		List<User> list;
+
+		if (users.size() < startItem) {
+			list = Collections.emptyList();
+		} else {
+			int toIndex = Math.min(startItem + pageSize, users.size());
+			list = users.subList(startItem, toIndex);
+		}
+
+		return new PageImpl<User>(list, new PageRequest(currentPage, pageSize), users.size());
 	}
 
 }

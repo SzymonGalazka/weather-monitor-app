@@ -19,8 +19,7 @@ import sgalazka.springframework.domain.Weather;
 import sgalazka.springframework.repositories.UserRepository;
 import sgalazka.springframework.repositories.WeatherRepository;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -44,6 +43,16 @@ public class WeatherServiceImpl implements WeatherService {
 	@Override
 	public List<Weather> findAllByUserId(Integer userId) {
 		return toList(weatherRepository.findAllByUserId(userId));
+	}
+
+	@Override
+	public List<Weather> findAllByCity(String city, Integer userId) {
+		List<Weather> userWeather = findAllByUserId(userId);
+		userWeather.stream().filter(w -> city.equals(w.getCity()))
+				.findAny()
+				.orElse(null);
+		userWeather.forEach(System.out::println);
+		return userWeather;
 	}
 
 	@Override
@@ -71,6 +80,22 @@ public class WeatherServiceImpl implements WeatherService {
 		return weather;
 	}
 
+	@Override
+	public List<Double> calculateStats(Page<Weather> weatherPage) {
+
+		OptionalDouble maxTemp = weatherPage.getContent().stream().mapToDouble(Weather::getTemp).max();
+		OptionalDouble minTemp = weatherPage.getContent().stream().mapToDouble(Weather::getTemp).min();
+		OptionalDouble avgTemp = weatherPage.getContent().stream().mapToDouble(Weather::getTemp).average();
+
+		List<Double> tempStats = new ArrayList<>();
+
+		tempStats.add(maxTemp.getAsDouble());
+		tempStats.add(minTemp.getAsDouble());
+		tempStats.add(avgTemp.getAsDouble());
+
+		return tempStats;
+	}
+
 	private void logWeatherInfo(Weather weather) {
 		logger.warn(String.format(WEATHER_FORECAST, weather.getCity(), weather.getMain(), weather.getDescription(), weather.getTempMin(), weather.getTempMax(), weather.getTemp()));
 	}
@@ -92,8 +117,15 @@ public class WeatherServiceImpl implements WeatherService {
 		return StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
 	}
 
-	public Page<Weather> listPaginated(Pageable pageable, Integer userId) {
+	public Page<Weather> listPaginated(Pageable pageable, Integer userId, Optional<String> city) {
 		List<Weather> weathers = weatherRepository.findAllByUserId(userId);
+		if (city.isPresent()) {
+			weathers = weathers
+					.stream()
+					.filter(w -> w.getCity().equalsIgnoreCase(city.get()))
+					.collect(Collectors.toList());
+			weathers.forEach(System.out::println);
+		}
 		int pageSize = pageable.getPageSize();
 		int currentPage = pageable.getPageNumber();
 		int startItem = currentPage * pageSize;

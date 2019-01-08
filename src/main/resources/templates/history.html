@@ -20,6 +20,26 @@
 		<h1>Hello <span sec:authentication="name"></span>!</h1>
 		<section sec:authorize="hasAuthority('USER')" class="container-fluid">
 			<h3 class="my-4">This is your history</h3>
+			<form th:action="@{/history}" method="get" class="mx-5">
+				<div class="my-1">
+					<label> Search for :</label>
+					<input class="weather-input rounded" name="city" id="city"/>
+				</div>
+				<div>
+					<button type="submit" id="submit" class="btn btn-default weather-button rounded mt-3 mb-5">Search by city</button>
+				</div>
+			</form>
+			<table th:if="${weatherStats}">
+				<h5>Temperature Stats: </h5>
+				<tr>
+					<td>Max temp</td>
+					<td>Min temp</td>
+					<td>Avg temp</td>
+				</tr>
+				<tr th:each="weatherStats : ${weatherStats}">
+					<td th:text="${weatherStats}"></td>
+				</tr>
+			</table>
 			<table class="w-100">
 				<tr>
 					<th>Date</th>
@@ -36,6 +56,7 @@
 					<td th:text="${weather.temp + ' C'}"></td>
 				</tr>
 			</table>
+			<span>Pages: </span>
 			<div th:if="${weatherPage.totalPages > 0}" class="weather-pagination"
 			     th:each="pageNumber : ${pageNumbers}">
 				<a th:href="@{/history(size=${weatherPage.size}, page=${pageNumber})}"

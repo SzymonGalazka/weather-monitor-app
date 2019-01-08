@@ -1,5 +1,7 @@
 package sgalazka.springframework.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import sgalazka.springframework.common.pojo.UserCreds;
 import sgalazka.springframework.domain.User;
 import sgalazka.springframework.domain.Weather;
@@ -18,5 +20,5 @@ public interface UserService extends CRUDService<User> {
 
 	boolean checkIfAdmin();
 
-	List<User> listAllWithoutAdmin();
+	Page<User> listAllWithoutAdmin(Pageable pageable);
 }
