@@ -6,6 +6,13 @@
 	<div th:replace="header :: header-css"/>
 	<link rel="stylesheet" th:href="@{/css/home.css}"/>
 </head>
+<style>
+	.weather-pagination {
+		display: inline-flex;
+		padding-left: 14px;
+	}
+
+</style>
 <body>
 <div th:replace="header :: header"/>
 <div class="container-fluid">
@@ -21,7 +28,7 @@
 					<th>Long desc</th>
 					<th>Avg temp</th>
 				</tr>
-				<tr th:each="weather : ${user.weathers}">
+				<tr th:each="weather : ${weatherPage.content}">
 					<td th:text="${weather.dateCreated}"></td>
 					<td th:text="${weather.city}"></td>
 					<td th:text="${weather.main}"></td>
@@ -29,6 +36,12 @@
 					<td th:text="${weather.temp + ' C'}"></td>
 				</tr>
 			</table>
+			<div th:if="${weatherPage.totalPages > 0}" class="weather-pagination"
+			     th:each="pageNumber : ${pageNumbers}">
+				<a th:href="@{/history(size=${weatherPage.size}, page=${pageNumber})}"
+				   th:text="${pageNumber}"
+				   th:class="${pageNumber==weatherPage.number + 1} ? active"></a>
+			</div>
 		</section>
 	</div>
 </div>

@@ -1,7 +1,8 @@
 package sgalazka.springframework.repositories;
 
-import sgalazka.springframework.domain.User;
 import org.springframework.data.repository.CrudRepository;
+import sgalazka.springframework.domain.User;
+
 
 public interface UserRepository extends CrudRepository<User, Integer> {
 

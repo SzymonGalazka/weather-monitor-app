@@ -7,6 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -15,6 +19,7 @@ import sgalazka.springframework.domain.Weather;
 import sgalazka.springframework.repositories.UserRepository;
 import sgalazka.springframework.repositories.WeatherRepository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -86,6 +91,24 @@ public class WeatherServiceImpl implements WeatherService {
 	private static <T> List<T> toList(final Iterable<T> iterable) {
 		return StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
 	}
+
+	public Page<Weather> listPaginated(Pageable pageable, Integer userId) {
+		List<Weather> weathers = weatherRepository.findAllByUserId(userId);
+		int pageSize = pageable.getPageSize();
+		int currentPage = pageable.getPageNumber();
+		int startItem = currentPage * pageSize;
+		List<Weather> list;
+
+		if (weathers.size() < startItem) {
+			list = Collections.emptyList();
+		} else {
+			int toIndex = Math.min(startItem + pageSize, weathers.size());
+			list = weathers.subList(startItem, toIndex);
+		}
+
+		return new PageImpl<Weather>(list, new PageRequest(currentPage, pageSize), weathers.size());
+	}
+
 
 	@Override
 	public List<?> listAll() {
