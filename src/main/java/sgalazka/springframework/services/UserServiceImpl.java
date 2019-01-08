@@ -22,6 +22,8 @@ import sgalazka.springframework.services.security.UserDetailsImpl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.codehaus.groovy.runtime.DefaultGroovyMethods.toList;
 
@@ -110,7 +112,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Page<User> listAllWithoutAdmin(Pageable pageable) {
+	public Page<User> listAllWithoutAdmin(Pageable pageable, Optional<String> username) {
 		List<User> users = new ArrayList<>();
 		userRepository.findAll().forEach(users::add);
 		users.stream()
@@ -120,15 +122,16 @@ public class UserServiceImpl implements UserService {
 		int pageSize = pageable.getPageSize();
 		int currentPage = pageable.getPageNumber();
 		int startItem = currentPage * pageSize;
-		List<User> list;
-
-		if (users.size() < startItem) {
+		List<User> list = null;
+		if (username.isPresent()) {
+			list = new ArrayList<>();
+			list.add(0, userRepository.findByUsername(username.get()));
+		} else if (users.size() < startItem) {
 			list = Collections.emptyList();
 		} else {
 			int toIndex = Math.min(startItem + pageSize, users.size());
 			list = users.subList(startItem, toIndex);
 		}
-
 		return new PageImpl<User>(list, new PageRequest(currentPage, pageSize), users.size());
 	}
 

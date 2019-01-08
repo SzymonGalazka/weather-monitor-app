@@ -34,14 +34,15 @@ public class HomeController {
 	@GetMapping
 	String home(Model model,
 				@RequestParam("page") Optional<Integer> page,
-				@RequestParam("size") Optional<Integer> size) {
+				@RequestParam("size") Optional<Integer> size,
+				@RequestParam("username") Optional<String> username) {
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(3);
 		model.addAttribute("appName", appName);
 		if (userService.checkIfAdmin()) {
 
 			Page<User> userPage = userService.listAllWithoutAdmin
-					(new PageRequest(currentPage - 1, pageSize));
+					(new PageRequest(currentPage - 1, pageSize), username);
 
 			model.addAttribute("userPage", userPage);
 

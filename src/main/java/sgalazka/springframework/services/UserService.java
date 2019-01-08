@@ -7,6 +7,7 @@ import sgalazka.springframework.domain.User;
 import sgalazka.springframework.domain.Weather;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService extends CRUDService<User> {
 
@@ -20,5 +21,5 @@ public interface UserService extends CRUDService<User> {
 
 	boolean checkIfAdmin();
 
-	Page<User> listAllWithoutAdmin(Pageable pageable);
+	Page<User> listAllWithoutAdmin(Pageable pageable, Optional<String> username);
 }

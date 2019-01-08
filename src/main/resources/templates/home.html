@@ -47,7 +47,16 @@
 		</section>
 		<!--ADMIN-->
 		<section sec:authorize="hasAuthority('ADMIN')">
-			<h3>Text visible to admin.</h3>
+			<h3>Hello admin!</h3>
+			<form th:action="@{/}" method="get" class="mx-5">
+				<div class="my-1">
+					<label> Search for :</label>
+					<input class="weather-input rounded" name="username" id="username"/>
+				</div>
+				<div>
+					<button type="submit" id="submit" class="btn btn-default weather-button rounded mt-3 mb-5">Search by username</button>
+				</div>
+			</form>
 			<table class="admin-table w-100">
 				<tr>
 					<th>ID</th>
@@ -72,7 +81,7 @@
 				</tr>
 			</table>
 			<span>Pages: </span>
-			<div th:if="${userPage.totalPages > 0}" class="weather-pagination"
+			<div th:if="${userPage.totalPages > 0 and !username}" class="weather-pagination"
 			     th:each="pageNumber : ${pageNumbers}">
 				<a th:href="@{/home(size=${userPage.size}, page=${pageNumber})}"
 				   th:text="${pageNumber}"
