@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import sgalazka.springframework.common.exceptions.UserAlreadyInUseException;
 import sgalazka.springframework.common.pojo.UserCreds;
 import sgalazka.springframework.repositories.UserRepository;
+import sgalazka.springframework.services.RoleService;
 import sgalazka.springframework.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

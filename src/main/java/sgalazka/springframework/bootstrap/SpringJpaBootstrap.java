@@ -72,12 +72,12 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
 		weatherService.saveWeather(weather2, 3);
 
 		Weather weather3 = new Weather();
-		weather2.setCity("Sosnowiec");
-		weather2.setMain("Fog");
-		weather2.setDescription("Heavy Fog");
-		weather2.setTemp(2.0);
-		weather2.setTempMin(-1.3);
-		weather2.setTempMax(3.4);
+		weather3.setCity("Sosnowiec");
+		weather3.setMain("Fog");
+		weather3.setDescription("Heavy Fog");
+		weather3.setTemp(2.0);
+		weather3.setTempMin(-1.0);
+		weather3.setTempMax(8.4);
 
 		weatherService.saveWeather(weather3, 4);
 	}

@@ -90,11 +90,10 @@ public class UserServiceImpl implements UserService {
 		newUser.setUsername(userCreds.getUsername());
 		newUser.setEncryptedPassword(encryptionService.encryptString(userCreds.getPassword()));
 
-		Role role = new Role();
-		role.setRole("USER");
-		roleService.saveOrUpdate(role);
+		Role role = roleService.getById(1);
 		newUser.addRole(role);
 		userRepository.save(newUser);
+		roleService.saveOrUpdate(role);
 
 		return newUser.getUsername();
 	}
