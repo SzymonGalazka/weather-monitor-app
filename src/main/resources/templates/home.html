@@ -81,7 +81,7 @@
 				</tr>
 			</table>
 			<span>Pages: </span>
-			<div th:if="${userPage.totalPages > 0 and !username}" class="weather-pagination"
+			<div th:if="${userPage.totalPages > 0}" class="weather-pagination"
 			     th:each="pageNumber : ${pageNumbers}">
 				<a th:href="@{/home(size=${userPage.size}, page=${pageNumber})}"
 				   th:text="${pageNumber}"
