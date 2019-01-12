@@ -42,6 +42,10 @@ public class AbstractDomainClass implements DomainObject {
 		return dateCreated;
 	}
 
+	public void setDateCreated(LocalDate dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
 	public LocalDate getLastUpdated() {
 		return lastUpdated;
 	}

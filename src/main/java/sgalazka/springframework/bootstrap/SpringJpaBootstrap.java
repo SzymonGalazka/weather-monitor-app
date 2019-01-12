@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import sgalazka.springframework.services.WeatherService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -57,7 +58,7 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
 		weather.setTemp(5.0);
 		weather.setTempMin(2.0);
 		weather.setTempMax(7.4);
-
+		weather.setDateCreated(LocalDate.of(2018, 11, 30));
 
 		weatherService.saveWeather(weather, 4);
 
@@ -68,6 +69,7 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
 		weather2.setTemp(2.0);
 		weather2.setTempMin(-1.3);
 		weather2.setTempMax(3.4);
+		weather2.setDateCreated(LocalDate.of(2018, 11, 30));
 
 		weatherService.saveWeather(weather2, 3);
 
@@ -78,6 +80,7 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
 		weather3.setTemp(2.0);
 		weather3.setTempMin(-1.0);
 		weather3.setTempMax(8.4);
+		weather3.setDateCreated(LocalDate.of(2018, 11, 30));
 
 		weatherService.saveWeather(weather3, 4);
 	}

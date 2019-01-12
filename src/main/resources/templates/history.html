@@ -16,6 +16,16 @@
 		padding-left: 14px;
 	}
 
+	.daterangepicker {
+		background: #4C6A82 !important;
+		color: black !important;
+		border: none !important;
+	}
+
+	.daterangepicker * {
+		border: none !important;
+	}
+
 </style>
 <body>
 <div th:replace="header :: header"/>
@@ -24,25 +34,33 @@
 		<h1>Hello <span sec:authentication="name"></span>!</h1>
 		<section sec:authorize="hasAuthority('USER')" class="container-fluid">
 			<h3 class="my-4">This is your history</h3>
-			<form th:action="@{/history}" method="get" class="mx-5">
-				<div class="my-1">
-					<label> Search by city:</label>
-					<input class="weather-input rounded" name="city" id="city"/>
+			<div class="row">
+				<div class="col-lg-6">
+					<form th:action="@{/history}" method="get" class="mx-5">
+						<div class="my-1">
+							<label> Search by city:</label>
+							<input class="weather-input rounded" name="city" id="city"/>
+						</div>
+						<div>
+							<button type="submit" id="submit" class="btn btn-default weather-button rounded mt-3 mb-5">Search by city
+							</button>
+						</div>
+					</form>
 				</div>
-				<div>
-					<button type="submit" id="submit" class="btn btn-default weather-button rounded mt-3 mb-5">Search by city</button>
+				<div class="col-lg-6">
+					<form th:action="@{/history}" method="get" class="mx-5">
+						<div class="my-1">
+							<label>Search by date range: </label>
+							<input class="weather-input rounded" name="dates"/>
+						</div>
+						<div>
+							<button type="submit" id="submitDate" class="btn btn-default weather-button rounded mt-3 mb-5">Search by date
+							</button>
+						</div>
+					</form>
 				</div>
-			</form>
-			<form th:action="@{/history}" method="get" class="mx-5">
-				<div class="my-1">
-					<label>Search by date range: </label>
-					<input class="weather-input rounded" name="dates"/>
-				</div>
-				<div>
-					<button type="submit" id="submitDate" class="btn btn-default weather-button rounded mt-3 mb-5">Search by date</button>
-				</div>
-			</form>
-			<table th:if="${weatherStats}">
+			</div>
+			<table class="my-4" th:if="${weatherStats}">
 				<h5>Temperature Stats: </h5>
 				<tr th:each="weatherStats : ${weatherStats}">
 					<td th:text="${weatherStats}"></td>
@@ -79,6 +97,7 @@
         $('input[name="dates"]').daterangepicker({
             opens: 'center',
             drops: 'up',
+            background: '#abc',
             buttonClasses: "btn btn-default weather-button rounded mt-3 mb-5"
         }, function (start, end) {
             console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
