@@ -5,6 +5,10 @@
 	<title>WeatherMonitor</title>
 	<div th:replace="header :: header-css"/>
 	<link rel="stylesheet" th:href="@{/css/home.css}"/>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
 </head>
 <style>
 	.weather-pagination {
@@ -22,11 +26,20 @@
 			<h3 class="my-4">This is your history</h3>
 			<form th:action="@{/history}" method="get" class="mx-5">
 				<div class="my-1">
-					<label> Search for :</label>
+					<label> Search by city:</label>
 					<input class="weather-input rounded" name="city" id="city"/>
 				</div>
 				<div>
 					<button type="submit" id="submit" class="btn btn-default weather-button rounded mt-3 mb-5">Search by city</button>
+				</div>
+			</form>
+			<form th:action="@{/history}" method="get" class="mx-5">
+				<div class="my-1">
+					<label>Search by date range: </label>
+					<input class="weather-input rounded" name="dates"/>
+				</div>
+				<div>
+					<button type="submit" id="submitDate" class="btn btn-default weather-button rounded mt-3 mb-5">Search by date</button>
 				</div>
 			</form>
 			<table th:if="${weatherStats}">
@@ -61,5 +74,16 @@
 		</section>
 	</div>
 </div>
+<script>
+    $(function () {
+        $('input[name="dates"]').daterangepicker({
+            opens: 'center',
+            drops: 'up',
+            buttonClasses: "btn btn-default weather-button rounded mt-3 mb-5"
+        }, function (start, end) {
+            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+        });
+    });
+</script>
 </body>
 </html>

@@ -14,12 +14,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import sgalazka.springframework.converters.DaysBetweenCalculator;
 import sgalazka.springframework.domain.User;
 import sgalazka.springframework.domain.Weather;
 import sgalazka.springframework.repositories.UserRepository;
 import sgalazka.springframework.repositories.WeatherRepository;
 
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -120,7 +123,7 @@ public class WeatherServiceImpl implements WeatherService {
 		return StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
 	}
 
-	public Page<Weather> listPaginated(Pageable pageable, Integer userId, Optional<String> city) {
+	public Page<Weather> listPaginated(Pageable pageable, Integer userId, Optional<String> city, Optional<String> dates) {
 		List<Weather> weathers = weatherRepository.findAllByUserId(userId);
 		if (city.isPresent()) {
 			weathers = weathers
@@ -128,6 +131,21 @@ public class WeatherServiceImpl implements WeatherService {
 					.filter(w -> w.getCity().equalsIgnoreCase(city.get()))
 					.collect(Collectors.toList());
 			weathers.forEach(System.out::println);
+		} else if (dates.isPresent()) {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+			String[] convertedDates = dates.get().split("-");
+
+			LocalDate startDate = LocalDate.parse(convertedDates[0].replace(" ", ""), formatter);
+			LocalDate endDate = LocalDate.parse(convertedDates[1].replace(" ", ""), formatter);
+			System.out.println(startDate + " TO " + endDate);
+			List<LocalDate> allDates = DaysBetweenCalculator.getDatesBetween(startDate, endDate);
+			allDates.forEach(System.out::println);
+			weathers.forEach(weather -> System.out.println(weather.getDateCreated()));
+			weathers = weathers.stream()
+					.filter(w -> allDates.toString().contains(w.getDateCreated().toString()))
+					.collect(Collectors.toList());
+
+
 		}
 		int pageSize = pageable.getPageSize();
 		int currentPage = pageable.getPageNumber();

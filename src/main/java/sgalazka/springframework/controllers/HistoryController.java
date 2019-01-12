@@ -39,7 +39,8 @@ public class HistoryController {
 	String history(Model model,
 				   @RequestParam("page") Optional<Integer> page,
 				   @RequestParam("size") Optional<Integer> size,
-				   @RequestParam("city") Optional<String> city) {
+				   @RequestParam("city") Optional<String> city,
+				   @RequestParam("dates") Optional<String> dates) {
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(10);
 
@@ -48,7 +49,7 @@ public class HistoryController {
 		Integer userId = userDetails.getUserId();
 
 		Page<Weather> weatherPage = weatherService.listPaginated
-				(new PageRequest(currentPage - 1, pageSize), userId, city);
+				(new PageRequest(currentPage - 1, pageSize), userId, city, dates);
 		model.addAttribute("weatherPage", weatherPage);
 		if (weatherPage.getTotalElements() > 0) {
 			model.addAttribute("weatherStats", weatherService.calculateStats(weatherPage));

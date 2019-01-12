@@ -14,7 +14,7 @@ public interface WeatherService extends CRUDService<Weather> {
 
 	void deleteAllWeatherForUserId(Integer userId);
 
-	Page<Weather> listPaginated(Pageable pageable, Integer userId, Optional<String> city);
+	Page<Weather> listPaginated(Pageable pageable, Integer userId, Optional<String> city, Optional<String> dates);
 
 	List<Weather> findAllByUserId(Integer userId);
 
