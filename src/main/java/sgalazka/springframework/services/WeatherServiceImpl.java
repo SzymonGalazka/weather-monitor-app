@@ -64,7 +64,16 @@ public class WeatherServiceImpl implements WeatherService {
 		User user = userRepository.findById(userId);
 //		.orElseThrow(() -> new EntityNotFoundException("UserID not found: " + username))
 		weather.setUser(user);
+		weather.setCity(convertWeatherLetters(weather.getCity()));
 		weatherRepository.save(weather);
+	}
+
+	private String convertWeatherLetters(String city) {
+		city = city.toLowerCase().replace("ą", "a").replace("ś", "s")
+				.replace("ć", "c").replace("ż", "z")
+				.replace("ź", "z").replace("ę", "e")
+				.replace("ó", "o").replace("ł", "l");
+		return city.substring(0, 1).toUpperCase() + city.substring(1);
 	}
 
 	//todo
